@@ -80,6 +80,8 @@ const Inicio = () => {
           <Typography variant="h4" color="primary" fontWeight="bold">
             🚗 Vehículos Registrados - Drivex
           </Typography>
+          <Box>
+
           <Button
             component={Link}
             to="/agregar"
@@ -91,13 +93,14 @@ const Inicio = () => {
           </Button>
           <Button
             component={Link}
-            to="/formMasivo"
+            to="/agregar"
             variant="contained"
             endIcon={<AddIcon />}
-            sx={{ backgroundColor: "#d32f2f", "&:hover": { backgroundColor: "#9a0007" } }}
+            sx={{ backgroundColor: "#3f2fd3ff", "&:hover": { backgroundColor: "#000a9aff" } }}
           >
             Subida Masiva
           </Button>
+          </Box>
         </Box>
 
         <DinamicTable
