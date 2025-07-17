@@ -89,6 +89,15 @@ const Inicio = () => {
           >
             Agregar Carro
           </Button>
+          <Button
+            component={Link}
+            to="/agregar"
+            variant="contained"
+            endIcon={<AddIcon />}
+            sx={{ backgroundColor: "#d32f2f", "&:hover": { backgroundColor: "#9a0007" } }}
+          >
+            Subida Masiva
+          </Button>
         </Box>
 
         <DinamicTable
