@@ -3,8 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material/Box";
-import EmailIcon from "@mui/icons-material/MailOutlined";
-import InputAdornment from "@mui/material/InputAdornment";
+
 import Typography from "@mui/material/Typography";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
@@ -92,51 +91,28 @@ const FormularioMasivo = () => {
         }}
       >
         <Typography variant="h4" component="h1" align="center">
-          Formulario Masivo
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            fill="currentColor"
+            className="bi bi-file-earmark-spreadsheet"
+            viewBox="0 0 16 16"
+
+          >
+            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z" />
+          </svg> - 
+          Archivo excel
+
         </Typography>
 
         <TextField
-          id="form_documento"
-          label="Documento"
-          name="documento"
-          type="number"
-          required
-          value={formData.documento}
-          onChange={handleChange}
-        />
-        <TextField
-          id="form_nombre"
-          label="Nombre"
-          name="nombre"
-          type="text"
-          required
-          value={formData.nombre}
-          onChange={handleChange}
-        />
-        <TextField
-          id="form_apellido"
-          label="Apellido"
-          name="apellido"
-          type="text"
+          id="excel"
+          name="excel"
+          type="file"
           required
           value={formData.apellido}
           onChange={handleChange}
-        />
-        <TextField
-          id="form_email"
-          label="Email"
-          name="email"
-          type="email"
-          required
-          value={formData.email}
-          onChange={handleChange}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <EmailIcon />
-              </InputAdornment>
-            ),
-          }}
         />
 
         <Button variant="contained" type="submit" endIcon={<SendIcon />}>
