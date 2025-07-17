@@ -91,7 +91,7 @@ const Inicio = () => {
           </Button>
           <Button
             component={Link}
-            to="/agregar"
+            to="/formMasivo"
             variant="contained"
             endIcon={<AddIcon />}
             sx={{ backgroundColor: "#d32f2f", "&:hover": { backgroundColor: "#9a0007" } }}
