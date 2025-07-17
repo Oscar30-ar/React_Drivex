@@ -19,7 +19,7 @@ const Error404 = () => {
     >
       <ErrorOutlineIcon sx={{ fontSize: 80, color: "#f44336" }} />
       <Typography variant="h3" color="error">
-        Error 404
+        Error 404 Miguel Gay
       </Typography>
       <Typography variant="h6" color="text.secondary">
         La página que estás buscando no existe.
