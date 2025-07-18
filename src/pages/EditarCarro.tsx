@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -8,50 +8,69 @@ import {
   Paper,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
-const AgregarCarro: React.FC = () => {
+const EditarCarro: React.FC = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
   const [fecha, setFecha] = useState("");
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/carros/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const carro = data.data;
+        setMarca(carro.marca);
+        setModelo(carro.modelo);
+        setFecha(carro.fecha.toString());
+      })
+      .catch((error) => {
+        console.error("Error al cargar carro", error);
+        Swal.fire("Error", "No se pudo cargar la información del carro.", "error");
+      });
+  }, [id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("marca", marca);
-    formData.append("modelo", modelo);
-    formData.append("fecha", fecha);
+    const year = parseInt(fecha);
+    const currentYear = new Date().getFullYear();
+
+    if (isNaN(year) || year < 1900 || year > currentYear) {
+      return Swal.fire("Error", `El año debe estar entre 1900 y ${currentYear}.`, "warning");
+    }
+
+    const updatedCarro = {
+      marca,
+      modelo,
+      fecha,
+    };
 
     try {
-      const response = await fetch("http://localhost:8000/carros", {
-        method: "POST",
-        body: formData,
+      const response = await fetch(`http://localhost:8000/carros/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedCarro),
       });
 
-      const data = await response.json();
-
-      if (data.success) {
-        Swal.fire({
-          title: "Éxito",
-          text: data.message,
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then(() => {
-          navigate("/");
-        });
-
-        setMarca("");
-        setModelo("");
-        setFecha("");
+      if (response.ok) {
+        Swal.fire("Actualizado", "Carro actualizado exitosamente", "success").then(() =>
+          navigate("/")
+        );
       } else {
-        Swal.fire("Error", data.message, "error");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error desconocido");
       }
     } catch (error) {
-      console.error(error);
-      Swal.fire("Error", "Error de red o servidor.", "error");
+      console.error("Error al actualizar", error);
+      Swal.fire("Error", "No se pudo actualizar el carro.", "error");
     }
   };
 
@@ -65,8 +84,9 @@ const AgregarCarro: React.FC = () => {
           textAlign="center"
           mb={3}
         >
-          🚗 Registro de Carro - Drivex
+          ✏️ Editar Carro - Drivex
         </Typography>
+
         <form onSubmit={handleSubmit}>
           <Grid container direction="column" spacing={3}>
             <Grid item>
@@ -79,6 +99,7 @@ const AgregarCarro: React.FC = () => {
                 variant="outlined"
               />
             </Grid>
+
             <Grid item>
               <TextField
                 fullWidth
@@ -89,6 +110,7 @@ const AgregarCarro: React.FC = () => {
                 variant="outlined"
               />
             </Grid>
+
             <Grid item>
               <TextField
                 fullWidth
@@ -101,6 +123,7 @@ const AgregarCarro: React.FC = () => {
                 variant="outlined"
               />
             </Grid>
+
             <Grid item>
               <Button
                 type="submit"
@@ -108,11 +131,23 @@ const AgregarCarro: React.FC = () => {
                 endIcon={<SendIcon />}
                 fullWidth
                 sx={{
-                  backgroundColor: "#d32f2f",
-                  "&:hover": { backgroundColor: "#9a0007" },
+                  backgroundColor: "#1976d2",
+                  "&:hover": { backgroundColor: "#115293" },
                 }}
               >
-                Registrar Carro
+                Actualizar Carro
+              </Button>
+            </Grid>
+
+            <Grid item>
+              <Button
+                component={Link}
+                to="/"
+                variant="outlined"
+                fullWidth
+                endIcon={<KeyboardReturnIcon />}
+              >
+                Regresar
               </Button>
             </Grid>
           </Grid>
@@ -122,4 +157,4 @@ const AgregarCarro: React.FC = () => {
   );
 };
 
-export default AgregarCarro;
+export default EditarCarro;

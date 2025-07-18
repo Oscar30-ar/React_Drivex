@@ -12,7 +12,7 @@ interface Users {
   id: number | null;
   marca: string;
   modelo: string;
-  fecha: string;
+  fecha: number|null;
 }
 
 const Inicio = () => {
@@ -40,7 +40,7 @@ const Inicio = () => {
     { field: "fecha", headerName: "Fecha", width: 180 },
   ];
 
-  const handleEdit = (id: number) => navigate(`/editar/${id}`);
+  const handleEdit = (id: number) => navigate(`/editarCarro/${id}`);
 
   const handleDelete = async (id: number) => {
     const confirm = await Swal.fire({

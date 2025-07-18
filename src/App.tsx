@@ -6,6 +6,7 @@ import QuienesSomos from "./pages/QuienesSomos";
 import Contactanos from "./pages/Contactanos";
 import Formulario from "./pages/agregar";
 import FormularioMasivo from "./pages/FormMasivo";
+import EditarCarro from "./pages/EditarCarro";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/QuienesSomos" element={<QuienesSomos />} />     
         <Route path="/Contactanos" element={<Contactanos />} />   
         <Route path="/agregar" element={<Formulario />} />   
+        <Route path="/editarCarro/:id" element={<EditarCarro />} />  
         <Route path="/formMasivo" element={<FormularioMasivo />} />   
         <Route path="/*" element={<Error404 />} />
       </Routes>
