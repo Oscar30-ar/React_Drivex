@@ -45,19 +45,15 @@ const EditarCarro: React.FC = () => {
       return Swal.fire("Error", `El año debe estar entre 1900 y ${currentYear}.`, "warning");
     }
 
-    const updatedCarro = {
-      marca,
-      modelo,
-      fecha,
-    };
+    const formData = new FormData();
+    formData.append("marca", marca);
+    formData.append("modelo", modelo);
+    formData.append("fecha", fecha);
 
     try {
       const response = await fetch(`http://localhost:8000/carros/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedCarro),
+        body: formData,
       });
 
       if (response.ok) {
@@ -66,7 +62,7 @@ const EditarCarro: React.FC = () => {
         );
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error desconocido");
+        throw new Error(errorData.message);
       }
     } catch (error) {
       console.error("Error al actualizar", error);
